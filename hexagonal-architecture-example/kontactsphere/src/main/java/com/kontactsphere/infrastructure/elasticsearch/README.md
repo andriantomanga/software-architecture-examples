@@ -1,0 +1,1 @@
+# Dans ce répertoire, nous mettrons notre Adapter permettant de communiquer plutot avec ES.
