@@ -1,0 +1,22 @@
+services:
+  app:
+    image: kontactsphere:latest
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/kontactsphere
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=azerty
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  db:
+    image: postgres:14.1
+    container_name: db
+    environment:
+      - POSTGRES_DB=kontactsphere
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=azerty
