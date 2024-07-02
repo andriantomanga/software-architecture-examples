@@ -40,7 +40,11 @@ class CreateContactServiceTest {
     void should_successfully_create_contact() {
         // Given
         when(repository.createContact(any())).thenReturn(GIVEN_CONTACT_ID);
-        var givenContact = new Contact(null, GIVEN_CONTACT_NAME, GIVEN_EMAIL_ADDRESS, GIVEN_PHONE_NUMBER);
+        var givenContact = Contact.builder()
+                .name(GIVEN_CONTACT_NAME)
+                .email(GIVEN_EMAIL_ADDRESS)
+                .phoneNumber(GIVEN_PHONE_NUMBER)
+                .build();
 
         // When
         var actualContactId = sut.createContact(givenContact);
@@ -52,12 +56,16 @@ class CreateContactServiceTest {
         );
     }
 
-    @ParameterizedTest(name = "[Nom: {0}, email: {1}, Tel: {1}] => Message attendu: '{2}'")
+    @ParameterizedTest(name = "[Nom: {0}, email: {1}, Tel: {2}] => Message attendu: {3}")
     @MethodSource("invalidContactArgumentProvider")
     @DisplayName("Devrait declencer une erreur et ne pas creer un nouveau contact")
     void should_throw_business_exception_when_contact_is_invalid(String givenContactName, String givenEmailAddress, String givenPhoneNumber, String expectedMessage) {
         // Given
-        var givenContact = new Contact(null, givenContactName, givenEmailAddress, givenPhoneNumber);
+        var givenContact = Contact.builder()
+                .name(givenContactName)
+                .email(givenEmailAddress)
+                .phoneNumber(givenPhoneNumber)
+                .build();
 
         // When+Then
         var exception = assertThrows(BusinessException.class, () -> sut.createContact(givenContact));

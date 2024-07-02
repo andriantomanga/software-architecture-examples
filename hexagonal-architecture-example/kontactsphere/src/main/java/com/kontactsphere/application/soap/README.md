@@ -1,0 +1,1 @@
+# Dans ce repertoire, l'implementation utilisant plutot des API SOAP
