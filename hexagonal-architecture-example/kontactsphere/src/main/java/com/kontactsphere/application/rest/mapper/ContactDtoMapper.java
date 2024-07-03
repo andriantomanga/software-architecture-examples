@@ -7,4 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface ContactDtoMapper {
     Contact toDomainContact(ContactDto contact);
+
+    ContactDto toCompleteContactDto(Contact contact);
 }

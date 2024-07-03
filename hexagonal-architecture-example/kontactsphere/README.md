@@ -22,12 +22,13 @@ spring.jpa.properties.hibernate.format_sql=true
 
 ## Execution
 
-1. Lancement de l'application
+### 1. Lancement de l'application
  ```bash
 docker-compose up
 ```
 
-2. Tests
+### 2. Tests
+#### 2.1. Ecriture
  ```bash
 curl -X POST \
 http://localhost:8080/v1/contacts \
@@ -37,4 +38,8 @@ http://localhost:8080/v1/contacts \
 "email": "patrick4@gmail.com",
 "phoneNumber": "0605798879"
 }'
+ ```
+#### 2.2. Lecture
+ ```bash
+curl -X GET http://localhost:8080/v1/contacts/1
  ```
