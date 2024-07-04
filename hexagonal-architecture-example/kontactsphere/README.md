@@ -24,7 +24,8 @@ spring.jpa.properties.hibernate.format_sql=true
 
 ### 1. Lancement de l'application
  ```bash
-docker-compose up
+docker-compose build
+docker-compose up -d
 ```
 
 ### 2. Tests
