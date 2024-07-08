@@ -1,0 +1,20 @@
+services:
+  andrian-elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
+    container_name: andrian-elasticsearch
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+
+  book-search-pro-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: book-search-pro-app
+    ports:
+      - "8080:8080"
+    environment:
+      - ELASTICSEARCH_URL=http://andrian-elasticsearch:9200
+    depends_on:
+      - andrian-elasticsearch
