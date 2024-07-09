@@ -11,12 +11,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @Disabled
@@ -56,7 +58,7 @@ class BookServiceTest {
         // Given
         var bookDto = givenBookDto();
         var bookEntity = givenBookEntity();
-        when(bookRepository.findByIsbn(GIVEN_ISBN)).thenReturn(Mono.just(bookEntity));
+        when(bookRepository.findByIsbn(GIVEN_ISBN)).thenReturn(Optional.of(bookEntity));
         when(bookMapper.toDto(bookEntity)).thenReturn(bookDto);
 
         // When
@@ -64,8 +66,13 @@ class BookServiceTest {
 
         // Then
         StepVerifier.create(result)
-                .expectNext(bookDto)
+                .expectNextMatches(dto -> GIVEN_ISBN.equals(dto.isbn()) &&
+                        GIVEN_TITLE.equals(dto.title()) &&
+                        GIVEN_AUTHOR.equals(dto.author()))
                 .verifyComplete();
+
+        verify(bookRepository, times(1)).findByIsbn(GIVEN_ISBN);
+        verify(bookMapper, times(1)).toDto(bookEntity);
     }
 
     @Test
@@ -73,22 +80,27 @@ class BookServiceTest {
         // Given
         var bookDto = givenBookDto();
         var bookEntity = givenBookEntity();
-        when(bookRepository.findByAuthor(GIVEN_AUTHOR)).thenReturn(Flux.just(bookEntity));
-        when(bookMapper.toDto(bookEntity)).thenReturn(bookDto);
+        when(bookRepository.findByAuthor(GIVEN_AUTHOR)).thenReturn(List.of(bookEntity));
+        when(bookMapper.toDtos(any())).thenReturn(List.of(bookDto));
 
         // When
         var result = sut.findBookByAuthor(GIVEN_AUTHOR);
 
         // Then
         StepVerifier.create(result)
-                .expectNext(bookDto)
+                .expectNextMatches(dto -> GIVEN_ISBN.equals(dto.isbn()) &&
+                        GIVEN_TITLE.equals(dto.title()) &&
+                        GIVEN_AUTHOR.equals(dto.author()))
                 .verifyComplete();
+
+        verify(bookRepository, times(1)).findByAuthor(GIVEN_AUTHOR);
+        verify(bookMapper, times(1)).toDtos(any());
     }
 
     @Test
     void should_throw_exception_when_find_book_by_isbn_and_book_not_found() {
         // Given
-        when(bookRepository.findByIsbn(GIVEN_ISBN)).thenReturn(Mono.empty());
+        when(bookRepository.findByIsbn(GIVEN_ISBN)).thenReturn(Optional.empty());
 
         // When
         var result = sut.findBookByIsbn(GIVEN_ISBN);
@@ -102,7 +114,7 @@ class BookServiceTest {
     @Test
     void should_throw_exception_when_find_book_by_author_and_book_not_found() {
         // Given
-        when(bookRepository.findByAuthor(GIVEN_AUTHOR)).thenReturn(Flux.empty());
+        when(bookRepository.findByAuthor(GIVEN_AUTHOR)).thenReturn(Collections.emptyList());
 
         // When
         var result = sut.findBookByAuthor(GIVEN_AUTHOR);

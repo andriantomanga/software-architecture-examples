@@ -1,17 +1,21 @@
 package com.booksearchpro.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
 
-@Document(indexName = "books")
+@Entity
+@Table(name = "books")
 @Data
 @NoArgsConstructor
 public class Book {
     @Id
-    private String id;      // identifiant technique (a ne jamais exposer au public)
-    private String isbn;    // identifiant fonctionnel (pouvant etre expose)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(nullable = false)
+    private String isbn;
+    @Column(name = "title")
     private String title;
+    @Column(name = "author")
     private String author;
 }

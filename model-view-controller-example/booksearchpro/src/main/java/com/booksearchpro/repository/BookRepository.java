@@ -1,14 +1,15 @@
 package com.booksearchpro.repository;
 
 import com.booksearchpro.model.Book;
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface BookRepository extends ElasticsearchRepository<Book, String> {
-    Mono<Book> findByIsbn(String isbn);
+import java.util.List;
+import java.util.Optional;
 
-    Flux<Book> findByTitle(String title);
+@Repository
+public interface BookRepository extends JpaRepository<Book, Long> {
+    Optional<Book> findByIsbn(String isbn);
 
-    Flux<Book> findByAuthor(String author);
+    List<Book> findByAuthor(String author);
 }

@@ -1,20 +1,22 @@
 services:
-  andrian-elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
-    container_name: andrian-elasticsearch
-    environment:
-      - discovery.type=single-node
-    ports:
-      - "9200:9200"
-
-  book-search-pro-app:
+  app:
+    image: booksearchpro:latest
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: book-search-pro-app
     ports:
       - "8080:8080"
-    environment:
-      - ELASTICSEARCH_URL=http://andrian-elasticsearch:9200
     depends_on:
-      - andrian-elasticsearch
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/booksearchpro
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=azerty
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  db:
+    image: postgres:14.1
+    container_name: db
+    environment:
+      - POSTGRES_DB=booksearchpro
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=azerty

@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface BookMapper {
 
@@ -15,4 +17,6 @@ public interface BookMapper {
             @Mapping(target = "id", ignore = true)
     })
     Book toEntity(BookDto bookDto);
+
+    List<BookDto> toDtos(List<Book> book);
 }
