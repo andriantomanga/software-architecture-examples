@@ -16,13 +16,7 @@ Chaque dossier d'architecture contient des exemples de code et des explications 
 
 - **/hexagonal-architecture-example** : Exemples d'application de l'architecture hexagonale en Java.
 - **/model-view-controller-example** : Exemples illustrant le modèle-vue-contrôleur en Java.
-- **/clean-architecture-example** : Principes et exemples de mise en œuvre de Clean Code en Java.
+- **/clean-architecture-example** : Principes et exemples de mise en œuvre de Clean Code en Java (en cours d'écriture ...)
 
 
-## Utilisation
-
-Pour utiliser ce repository, clonez le projet localement :
-
-```bash
-git clone https://github.com/votre_utilisateur/nom_du_projet.git
 
