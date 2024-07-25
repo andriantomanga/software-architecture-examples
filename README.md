@@ -14,7 +14,7 @@ Chaque dossier d'architecture contient des exemples de code et des explications 
 
 ## 📂 Contenu
 
-- ** 📁/hexagonal-architecture-example** : Exemples d'application de l'architecture hexagonale en Java.
+- 📁 **/hexagonal-architecture-example** : Exemples d'application de l'architecture hexagonale en Java.
 - ** 📁/model-view-controller-example** : Exemples illustrant le modèle-vue-contrôleur en Java.
 - ** 📁/clean-architecture-example** : Principes et exemples de mise en œuvre de Clean Code en Java (en cours d'écriture ...)
 
